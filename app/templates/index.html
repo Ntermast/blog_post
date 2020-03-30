@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf%}
+
+{% block styles %}
+{{ super()}}
+
+<link href="https://fonts.googleapis.com/css?family=Pacifico|Permanent+Marker&display=swap" rel="stylesheet">
+
+{% endblock%}
+{% block content %}
+<h1> Person blog website!</h1>
+
+<div class="container">
+    <h1><strong> Awesome quotes here!</strong></h1>
+    <hr>
+
+    <h3>QUOTE:{{quote.quote}}</h3>
+    <h3>BY: {{quote.author}}</h3>
+</div>
+
+<h1>BLOG POSTS</h1>
+
+<div class="container">
+    {% for post in posts %}
+    <p style="font-size:20px;">{{post.post_title}}:{{post.post_content}}</p>
+    <div class="col-md-4">
+        <a href="{{url_for('main.new_post')}}" class="btn btn-primary"> CREATE POST</a>
+    </div>
+    <div class="col-md-4">
+
+        <a href="/post/{{post.id}}/update" class="btn btn-success"> UPDATE POST</a>
+    </div>
+    <div class="col-md-4">
+        <a href="{{url_for('main.delete_post', post_id = post.id)}}" class=" btn btn-danger"> DELETE POST</button><br>
+    </div>
+
+    
+    <div>
+        <a href="{{url_for('main.comment',post_id = post.id)}}" class="btn btn-default"> Add comment to this blog</a>
+        
+        {% for comment in post.comments%}
+        <p>{{comment.comment}}</p>
+    </div>
+    <div class="col-md-3">
+        <a href="{{url_for('main.delete_comment',id = comment.id)}}" class=" btn btn-danger col-md-3">Delete comment</a></div>
+    {% endfor%}
+
+    {% endfor %}
+
+</div>
+
+
+<h3>Subscribe here!</h3>
+<div>
+    {{wtf.quick_form(form)}}
+</div>
+
+
+{% endblock %}
